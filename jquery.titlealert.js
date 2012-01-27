@@ -32,6 +32,8 @@
  *   @option {Boolean} stopOnMouseMove If true, the flashing will stop when the browser window recieves a mousemove event. (default:false).
  *	 @option {Boolean} requireBlur Experimental. If true, the call will be ignored unless the window is out of focus (default: false).
  *                                 Known issues: Firefox doesn't recognize tab switching as blur, and there are some minor IE problems as well.
+ *   @option {Boolean} autoResetTitle If true, the title will be set at the end of the alert flash loop
+ *   @option {String} endStateTitle The title that should be set at the end of the alert flash loop
  *
  * @example $.titleAlert("Hello World!", {requireBlur:true, stopOnFocus:true, duration:10000, interval:500});
  * @desc Flash title bar with text "Hello World!", if the window doesn't have focus, for 10 seconds or until window gets focused, with an interval of 500ms
@@ -89,8 +91,19 @@
 		duration:0,
 		stopOnFocus: true,
 		requireBlur: false,
-		stopOnMouseMove: false
+		stopOnMouseMove: false,
+		autoResetTitle: true,
+		endStateTitle: document.title
 	};
+	
+	// reset the title to passed value, or its original value
+	$.titleAlert.reset = function (value) {
+	    if (typeof value != "undefined") {
+	        document.title = value;
+	    } else {
+	        document.title = $.titleAlert.defaults.endStateTitle;
+	    }
+	}
 	
 	// stop current title flash
 	$.titleAlert.stop = function() {
@@ -99,7 +112,9 @@
 		
 		clearTimeout($.titleAlert._intervalToken);
 		clearTimeout($.titleAlert._timeoutToken);
-		document.title = $.titleAlert._initialText;
+		if ($.titleAlert._settings.autoResetTitle === true) {
+            document.title = $.titleAlert._settings.endStateTitle;
+		}
 		
 		$.titleAlert._timeoutToken = null;
 		$.titleAlert._intervalToken = null;

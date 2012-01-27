@@ -11,11 +11,13 @@ $.titleAlert("Hello World!", {
     requireBlur:true,
     stopOnFocus:true,
     duration:10000,
-    interval:500
+    interval:500,
+    autoResetTitle:false,
+    endStateTitle:"Alerting complete!"
 });
 </pre>
 
-Flash title bar with text "Hello World!", if the window doesn't have focus, for 10 seconds or until window gets focused, with an interval of 500ms
+Flash title bar with text "Hello World!", if the window doesn't have focus, for 10 seconds or until window gets focused, with an interval of 500ms.  When flashing is complete, set the title bar to "Alerting complete!"
 
 Parameters and Options
 ----------------------
@@ -66,6 +68,16 @@ JavaScript object containing options
 	<td>requireBlur</td>
 	<td>false</td>
 	<td>Experimental. If true, the call will be ignored unless the window is out of focus. Known issues: Firefox doesn't recognize tab switching as blur, and there are some minor IE problems as well.</td>
+</tr>
+<tr>
+	<td>autoResetTitle</td>
+	<td>true</td>
+	<td>If true, the title will be set at the end of the alert flash loop.</td>
+</tr>
+<tr>
+	<td>endStateTitle</td>
+	<td>document.title</td>
+	<td>The value of the title bar after alerting has been completed.</td>
 </tr>
 </table>
 
